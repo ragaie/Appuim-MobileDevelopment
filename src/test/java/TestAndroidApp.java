@@ -38,13 +38,14 @@ public class TestAndroidApp {
         cap.setCapability("app", urlForApp);
         URL url = new URL(" http://0.0.0.0:4723/wd/hub");
         driver = new AppiumDriver<MobileElement>(url, cap);
-        wait = new WebDriverWait(driver, 20);
+        wait = new WebDriverWait(driver, 30);
         System.out.println("application started ......");
 
        // driver.sendSMS("555-555-5555", "Your code is 123456");
         clickStart();
         scrollAndSelectReservation();
         makeReserve();
+        selectOlditem();
         showSidemenu();
     }
 
@@ -54,14 +55,14 @@ public class TestAndroidApp {
     public void clickStart(){
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("android.widget.Button"))).click();
 
-        driver.runAppInBackground(Duration.ofSeconds(10));
+        driver.runAppInBackground(Duration.ofSeconds(5));
 
         driver.activateApp("com.google.android.apps.messaging");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("android.widget.LinearLayout")));
         List<MobileElement> listData = driver.findElements(By.className("android.widget.LinearLayout"));
         listData.get(0).click();
-
-        driver.activateApp("org.nativescript.examples");
+        driver.launchApp();
+        //driver.activateApp("org.nativescript.examples");
     }
 
 
@@ -99,9 +100,16 @@ public void makeReserve(){
     driver.findElement(By.xpath("//android.widget.TextView[@text=\"in-person\"]")).click();
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.CheckedTextView[@text=\"online\"]"))).click();
     driver.findElement(By.xpath("//android.widget.TextView[@text=\"DONE\"]")).click();
-    driver.navigate().back();
+    //driver.navigate().back();
 }
 
+
+    public void selectOlditem(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[@text=\"Rachel Nabors\"]"))).click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[@text=\"DONE\"]"))).click();
+      driver.navigate().back();
+    }
 
 
 
